@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Logging In</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+    <script type="text/javascript">
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+        if (token) {
+            document.cookie = "token=" + token + "; path=/; max-age=7200; SameSite=Lax";
+        }
+        window.location.href = "index.xhtml";
+    </script>
+</body>
+</html>

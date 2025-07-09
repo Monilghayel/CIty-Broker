@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
+    <h:head>
+        <title>All Properties - Admin</title>
+        <h:outputStylesheet library="css" name="common.css"/>
+        <h:outputStylesheet library="css" name="header.css" />
+        <h:outputStylesheet library="css" name="cards.css"/>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+            />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        ></script>
+    </h:head>
+    <h:body>
+        <ui:include src="components/header.xhtml"/>
+
+        <div class="container py-5">
+            <h2 class="mb-4 text-center text-primary">All Properties</h2>
+
+            <div class="table-responsive">
+                <h:dataTable value="#{propertyBean.allProperties}" var="prop" 
+                             styleClass="table table-bordered table-hover bg-white">
+
+                    <!-- ID -->
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                            #{prop.id}
+                    </h:column>
+
+                    <!-- Title -->
+                    <h:column>
+                        <f:facet name="header">Title</f:facet>
+                            #{prop.title}
+                    </h:column>
+
+                    <!-- Type -->
+                    <h:column>
+                        <f:facet name="header">Type</f:facet>
+                            #{prop.type}
+                    </h:column>
+
+                    <!-- Seller Address -->
+                    <h:column>
+                        <f:facet name="header">Seller</f:facet>
+                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 200px;">
+                            #{prop.address}
+                        </span>
+                    </h:column>
+
+                    <!-- Status -->
+                    <h:column>
+                        <f:facet name="header">Status</f:facet>
+                        <span class="text-capitalize">#{prop.status}</span>
+                    </h:column>
+
+                    <!-- Actions -->
+                    <h:column>
+                        <f:facet name="header">Actions</f:facet>
+                        <div class="d-flex gap-2">
+                            <a href="/RealEstate_V1/property-details.xhtml?id=#{prop.id}" 
+                               class="btn btn-sm btn-primary">
+                                View
+                            </a>
+
+                            <h:form styleClass="d-inline">
+                                <h:commandButton action="#{propertyBean.deleteProperty(prop.id)}"
+                                                 value="Delete"
+                                                 styleClass="btn btn-sm btn-danger"
+                                                 onclick="return confirm('Are you sure you want to delete this property?');">
+                                    <f:ajax render="@none" onevent="handleAjaxEvent" />
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                    </h:column>
+
+                </h:dataTable>
+            </div>
+        </div>
+
+        <script>
+            function handleAjaxEvent(data) {
+                if (data.status === 'success') {
+                    window.location.reload();
+                }
+            }
+        </script>
+
+    </h:body>
+</html>

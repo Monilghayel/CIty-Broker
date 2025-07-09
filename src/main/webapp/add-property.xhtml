@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:f="jakarta.faces.core"
+  xmlns:p="jakarta.faces.passthrough"
+>
+  <h:head>
+    <title>Add Property - CityBroker</title>
+    <h:outputStylesheet library="css" name="common.css" />
+    <h:outputStylesheet library="css" name="header.css" />
+    <h:outputStylesheet library="css" name="add-property.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  </h:head>
+  <h:body>
+    <ui:include src="components/header.xhtml" />
+    <ui:include src="components/simpleMessage.xhtml" />
+
+    <!-- Access Control for Non-Sellers -->
+    <h:panelGroup rendered="#{not loginBean.loggedIn}">
+      <section class="property-hero">
+        <div class="container text-center">
+          <div class="access-denied-icon mb-3">
+            <i class="bi bi-shield-x display-1 text-danger"></i>
+          </div>
+          <h1 class="display-4 mb-3">Access Denied</h1>
+          <p class="lead text-muted">Please login to access this page</p>
+          <h:link outcome="login" styleClass="btn btn-primary">Login</h:link>
+        </div>
+      </section>
+    </h:panelGroup>
+
+    <h:panelGroup
+      rendered="#{loginBean.loggedIn and loginBean.loggedInUser.role ne 'seller'}"
+    >
+      <section class="property-hero">
+        <div class="container text-center">
+          <div class="access-denied-icon mb-3">
+            <i class="bi bi-shield-x display-1 text-danger"></i>
+          </div>
+          <h1 class="display-4 mb-3">Access Restricted</h1>
+          <p class="lead text-muted">
+            This page is only accessible to property sellers.
+          </p>
+          <h:link outcome="index" styleClass="btn btn-primary"
+            >Go to Home</h:link
+          >
+        </div>
+      </section>
+    </h:panelGroup>
+
+    <!-- Main Content for Sellers -->
+    <h:panelGroup
+      rendered="#{loginBean.loggedIn and loginBean.loggedInUser.role eq 'seller'}"
+    >
+      <section class="property-hero">
+        <div class="container text-center">
+          <h1 class="display-4 mb-3">Add New Property</h1>
+          <p class="lead text-muted">Fill the details to list your property</p>
+        </div>
+      </section>
+
+      <section class="py-5">
+        <div class="container">
+          <div class="property-form">
+            <h:form id="propertyForm" enctype="multipart/form-data">
+              <!-- Property Type and Status -->
+              <div class="form-section">
+                <h4>Property Type and Status</h4>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <h:outputLabel
+                      for="propertyType"
+                      value="Property Type"
+                      styleClass="form-label required-field"
+                    />
+                    <h:selectOneMenu
+                      id="propertyType"
+                      value="#{propertyBean.selectedProperty.type}"
+                      styleClass="form-select"
+                      required="true"
+                    >
+                      <f:selectItem
+                        itemLabel="Select Property Type"
+                        itemValue=""
+                      />
+                      <f:selectItem
+                        itemLabel="Apartment"
+                        itemValue="apartment"
+                      />
+                      <f:selectItem itemLabel="House" itemValue="house" />
+                      <f:selectItem itemLabel="Villa" itemValue="villa" />
+                      <f:selectItem
+                        itemLabel="Commercial"
+                        itemValue="commercial"
+                      />
+                    </h:selectOneMenu>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <h:outputLabel
+                      for="status"
+                      value="Listing Status"
+                      styleClass="form-label required-field"
+                    />
+                    <h:selectOneMenu
+                      id="status"
+                      value="#{propertyBean.selectedProperty.status}"
+                      styleClass="form-select"
+                      required="true"
+                    >
+                      <f:selectItem itemLabel="Select Status" itemValue="" />
+                      <f:selectItem
+                        itemLabel="Available"
+                        itemValue="available"
+                      />
+                      <f:selectItem itemLabel="Sold" itemValue="sold" />
+                    </h:selectOneMenu>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Basic Property Info -->
+              <div class="form-section">
+                <h4>Basic Information</h4>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <h:outputLabel
+                      for="title"
+                      value="Title"
+                      styleClass="form-label required-field"
+                    />
+                    <h:inputText
+                      id="title"
+                      value="#{propertyBean.selectedProperty.title}"
+                      styleClass="form-control"
+                      p:placeholder="Enter property title"
+                      required="true"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <h:outputLabel
+                      for="price"
+                      value="Price (₹)"
+                      styleClass="form-label required-field"
+                    />
+                    <h:inputText
+                      id="price"
+                      value="#{propertyBean.selectedProperty.price}"
+                      styleClass="form-control"
+                      p:type="number"
+                      p:placeholder="Enter price"
+                      required="true"
+                    />
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <h:outputLabel
+                      for="description"
+                      value="Description"
+                      styleClass="form-label"
+                    />
+                    <h:inputTextarea
+                      id="description"
+                      value="#{propertyBean.selectedProperty.description}"
+                      styleClass="form-control"
+                      p:rows="4"
+                      p:placeholder="Property description"
+                      required="true"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Location Info -->
+              <div class="form-section">
+                <h4>Location</h4>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <h:outputLabel
+                      for="address"
+                      value="Address"
+                      styleClass="form-label"
+                    />
+                    <h:inputText
+                      id="address"
+                      value="#{propertyBean.selectedProperty.address}"
+                      styleClass="form-control"
+                      p:placeholder="Property address"
+                      required="true"
+                    />
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <h:outputLabel
+                      for="latitude"
+                      value="Latitude"
+                      styleClass="form-label"
+                    />
+                    <h:inputText
+                      id="latitude"
+                      value="#{propertyBean.selectedProperty.latitude}"
+                      styleClass="form-control"
+                      p:placeholder="Latitude"
+                    />
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <h:outputLabel
+                      for="longitude"
+                      value="Longitude"
+                      styleClass="form-label"
+                    />
+                    <h:inputText
+                      id="longitude"
+                      value="#{propertyBean.selectedProperty.longitude}"
+                      styleClass="form-control"
+                      p:placeholder="Longitude"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Property Details -->
+              <div class="form-section">
+                <h4>Details</h4>
+                <div class="row">
+                  <div class="col-md-3 mb-3">
+                    <h:outputLabel
+                      for="area"
+                      value="Area (sq.ft)"
+                      styleClass="form-label required-field"
+                    />
+                    <h:inputText
+                      id="area"
+                      value="#{propertyBean.selectedProperty.areaSqrt}"
+                      styleClass="form-control"
+                      p:type="number"
+                      p:placeholder="Area"
+                      required="true"
+                    />
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <h:outputLabel
+                      for="bedrooms"
+                      value="Bedrooms"
+                      styleClass="form-label"
+                    />
+                    <h:inputText
+                      id="bedrooms"
+                      value="#{propertyBean.selectedProperty.bedrooms}"
+                      styleClass="form-control"
+                      p:type="number"
+                    />
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <h:outputLabel
+                      for="bathrooms"
+                      value="Bathrooms"
+                      styleClass="form-label"
+                    />
+                    <h:inputText
+                      id="bathrooms"
+                      value="#{propertyBean.selectedProperty.bathrooms}"
+                      styleClass="form-control"
+                      p:type="number"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image Links Section -->
+              <div class="form-section">
+                <h4>Image Links</h4>
+
+                <!-- Wrapping the repeat block to make it rerenderable -->
+                <h:panelGroup id="imageList" layout="block">
+                  <ui:repeat
+                    value="#{propertyBean.imageLinks}"
+                    var="img"
+                    varStatus="status"
+                  >
+                    <div class="row mb-3 align-items-center">
+                      <div class="col-md-10">
+   <h:inputText
+     id="imageLink"
+     value="#{propertyBean.imageLinks[status.index]}"
+     styleClass="form-control"
+     p:placeholder="Enter image URL"
+     required="true"
+   >
+     <f:ajax event="keyup" execute="@this" render="imgPreview#{status.index}" />
+   </h:inputText>
+                      </div>
+                      <div class="col-md-2">
+                        <h:panelGroup id="imgPreview#{status.index}">
+                          <h:graphicImage
+                            value="#{propertyBean.imageLinks[status.index]}"
+                            width="100"
+                            rendered="#{not empty propertyBean.imageLinks[status.index]}"
+                          />
+                        </h:panelGroup>
+                      </div>
+                    </div>
+                  </ui:repeat>
+                </h:panelGroup>
+                <!-- + Add Image Link Button with AJAX -->
+                <div class="mb-3">
+                  <h:commandButton
+                    value="+ Add Image Link"
+                    action="#{propertyBean.addImageLink}"
+                    styleClass="btn btn-outline-secondary btn-sm"
+                  >
+                    <f:ajax render="imageList" />
+                  </h:commandButton>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="text-center mt-4">
+                <h:commandButton
+                  value="Add Property"
+                  action="#{propertyBean.submit}"
+                  styleClass="btn btn-primary btn-lg px-5"
+                >
+                  <f:ajax execute="@form" render="@none" />
+                </h:commandButton>
+              </div>
+            </h:form>
+          </div>
+        </div>
+      </section>
+    </h:panelGroup>
+  </h:body>
+</html>

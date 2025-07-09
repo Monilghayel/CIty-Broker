@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets">
+
+    <h:form id="bookingForm">
+        <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="appointmentModalLabel">Book Appointment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Select your preferred date and time for the appointment.</p>
+
+                        <div class="mb-3">
+                            <label for="appointmentDate" class="form-label">Date:</label>
+                            <h:inputText id="appointmentDate"
+                                         value="#{bookingsBean.selectedDate}"
+                                         styleClass="form-control"
+                                         required="true"
+                                         converterMessage="Please select a valid date.">
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                                <f:passThroughAttribute name="type" value="date" />
+                                <f:passThroughAttribute name="min" value="#{beanUtil.tomorrowDate}" />
+                            </h:inputText>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="appointmentTime" class="form-label">Time Slot:</label>
+                            <h:selectOneMenu id="appointmentTime"
+                                             value="#{bookingsBean.selectedTime}"
+                                             styleClass="form-control"
+                                             required="true">
+                                <f:selectItem itemLabel="Select a time slot" itemValue="" />
+                                <f:selectItem itemValue="06:00:00" itemLabel="06:00 AM" />
+                                <f:selectItem itemValue="06:30:00" itemLabel="06:30 AM" />
+                                <f:selectItem itemValue="07:00:00" itemLabel="07:00 AM" />
+                                <f:selectItem itemValue="07:30:00" itemLabel="07:30 AM" />
+                                <f:selectItem itemValue="08:00:00" itemLabel="08:00 AM" />
+                                <f:selectItem itemValue="08:30:00" itemLabel="08:30 AM" />
+                                <f:selectItem itemValue="09:00:00" itemLabel="09:00 AM" />
+                                <f:selectItem itemValue="09:30:00" itemLabel="09:30 AM" />
+                                <f:selectItem itemValue="10:00:00" itemLabel="10:00 AM" />
+                                <f:selectItem itemValue="10:30:00" itemLabel="10:30 AM" />
+                                <f:selectItem itemValue="11:00:00" itemLabel="11:00 AM" />
+                                <f:selectItem itemValue="11:30:00" itemLabel="11:30 AM" />
+                                <f:selectItem itemValue="12:00:00" itemLabel="12:00 PM" />
+                                <f:selectItem itemValue="12:30:00" itemLabel="12:30 PM" />
+                                <f:selectItem itemValue="13:00:00" itemLabel="01:00 PM" />
+                                <f:selectItem itemValue="13:30:00" itemLabel="01:30 PM" />
+                                <f:selectItem itemValue="14:00:00" itemLabel="02:00 PM" />
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <h:commandButton value="Book Now"
+                                         action="#{bookingsBean.createBooking}"
+                                         styleClass="btn btn-primary">
+                        </h:commandButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h:messages id="messages" globalOnly="true" styleClass="text-danger mt-2" />
+    </h:form>
+</ui:composition>

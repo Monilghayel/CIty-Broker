@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:pt="jakarta.faces.passthrough">
+<ui:composition>
+    <!-- Appointment Modal -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">Book Property Viewing</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h:form>
+                        <div class="mb-3">
+                            <label for="appointmentName" class="form-label">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <h:inputText id="appointmentName" value="#{appointmentBean.name}" 
+                                           styleClass="form-control" 
+                                           pt:placeholder="Enter your full name"
+                                           required="true"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="appointmentEmail" class="form-label">Email address</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <h:inputText id="appointmentEmail" value="#{appointmentBean.email}" 
+                                           styleClass="form-control" 
+                                           pt:type="email" 
+                                           pt:placeholder="Enter your email"
+                                           required="true"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="appointmentPhone" class="form-label">Phone Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-telephone"></i>
+                                </span>
+                                <h:inputText id="appointmentPhone" value="#{appointmentBean.phone}" 
+                                           styleClass="form-control" 
+                                           pt:placeholder="Enter your phone number"
+                                           required="true"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="appointmentDate" class="form-label">Preferred Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-calendar"></i>
+                                </span>
+                                <h:inputText id="appointmentDate" value="#{appointmentBean.date}" 
+                                           styleClass="form-control" 
+                                           pt:type="date" 
+                                           required="true"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="appointmentTime" class="form-label">Preferred Time</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-clock"></i>
+                                </span>
+                                <h:inputText id="appointmentTime" value="#{appointmentBean.time}" 
+                                           styleClass="form-control" 
+                                           pt:type="time" 
+                                           required="true"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="appointmentMessage" class="form-label">Additional Notes</label>
+                            <h:inputTextarea id="appointmentMessage" value="#{appointmentBean.message}" 
+                                           styleClass="form-control" 
+                                           pt:placeholder="Any specific requirements or questions?"
+                                           rows="3"/>
+                        </div>
+
+                        <div class="d-grid">
+                            <h:commandButton value="Book Appointment" styleClass="btn btn-primary"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:composition>
+</html> 

@@ -1,0 +1,126 @@
+/* Request Page Styles */
+.request-hero {
+  background-color: #f8f9fa;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+}
+
+.request-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.request-card:hover {
+  transform: translateY(-5px);
+}
+
+.request-status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-approved {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-declined {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.request-info {
+  margin-bottom: 1rem;
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-section {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.filter-section h5 {
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+/* No Requests Message Styles */
+.no-requests-icon {
+  opacity: 0.6;
+}
+
+.no-requests-icon i {
+  color: #6c757d;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Access Denied Message Styles */
+.access-denied-icon {
+  opacity: 0.8;
+}
+
+.access-denied-icon i {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .request-actions {
+    flex-direction: column;
+  }
+
+  .request-actions .btn {
+    width: 100%;
+  }
+
+  .no-requests-icon i {
+    font-size: 3rem !important;
+  }
+
+  .access-denied-icon i {
+    font-size: 3rem !important;
+  }
+}

@@ -1,0 +1,161 @@
+/* Property Card Styles */
+.property-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.property-image {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.property-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-rent {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-sell {
+  background-color: #dc3545;
+  color: white;
+}
+
+.property-actions {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+}
+
+/* Property Details */
+.property-details {
+  padding: 15px;
+}
+
+.property-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.property-location {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.property-price {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.property-price .price-period {
+  color: #6c757d;
+  font-weight: normal;
+}
+
+.property-specs {
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.property-specs i {
+  margin-right: 0.5rem;
+  color: #6c757d;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+/* Action Buttons */
+.btn-add-property {
+  margin-bottom: 2rem;
+}
+
+.btn-edit {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-edit:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.btn-delete {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Access Denied Message Styles */
+.access-denied-icon {
+  opacity: 0.8;
+}
+
+.access-denied-icon i {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .access-denied-icon i {
+    font-size: 3rem !important;
+  }
+}

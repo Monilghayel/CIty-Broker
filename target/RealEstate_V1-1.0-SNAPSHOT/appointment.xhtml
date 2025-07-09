@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="jakarta.faces.html"
+  xmlns:ui="jakarta.faces.facelets"
+  xmlns:f="jakarta.faces.core"
+>
+  <h:head>
+    <title>My Appointments - CityBroker</title>
+    <h:outputStylesheet library="css" name="common.css" />
+    <h:outputStylesheet library="css" name="header.css" />
+    <h:outputStylesheet library="css" name="appointment.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+  </h:head>
+
+  <h:body>
+    <ui:include src="components/header.xhtml" />
+
+    <section class="appointment-hero">
+      <div class="container">
+        <div class="text-center">
+          <h1 class="display-4 mb-3">My Appointments</h1>
+          <p class="lead text-muted">
+            View and manage your property viewing appointments
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5">
+      <div class="container">
+        <!-- Main Appointment Form -->
+        <h:form id="mainForm">
+          <h:panelGroup rendered="#{not empty bookingsBean.userBookings}">
+            <ui:repeat value="#{bookingsBean.userBookings}" var="booking">
+              <div class="appointment-card mb-4">
+                <div class="appointment-details">
+                  <img
+                    src="#{not empty booking.propertyImages ? booking.propertyImages[0] : 'https://via.placeholder.com/300x200'}"
+                    alt="Property"
+                    class="img-fluid rounded"
+                    style="width: 140px; object-fit: cover"
+                  />
+                  <div class="appointment-info">
+                    <div
+                      class="d-flex justify-content-between align-items-start mb-2"
+                    >
+                      <h5 class="mb-0">#{booking.propertyTitle}</h5>
+                      <h:panelGroup rendered="#{booking.status eq 'pending'}">
+                        <h:outputText
+                          value="Pending"
+                          styleClass="appointment-status status-upcoming"
+                        />
+                      </h:panelGroup>
+                      <h:panelGroup rendered="#{booking.status eq 'approved'}">
+                        <h:outputText
+                          value="Approved"
+                          styleClass="appointment-status status-completed"
+                        />
+                      </h:panelGroup>
+                      <h:panelGroup rendered="#{booking.status eq 'rejected'}">
+                        <h:outputText
+                          value="Rejected"
+                          styleClass="appointment-status status-cancelled"
+                        />
+                      </h:panelGroup>
+                    </div>
+
+                    <p class="text-muted mb-2">
+                      <i class="bi bi-calendar-event me-2"></i>
+                      <h:outputText value="#{booking.date} - #{booking.time}" />
+                    </p>
+                    <p class="mb-2">
+                      <i class="bi bi-geo-alt me-2"></i>
+                      #{booking.address}
+                    </p>
+                    <p class="mb-0">
+                      <i class="bi bi-person me-2"></i>
+                      Agent: #{booking.sellerName}
+                    </p>
+                  </div>
+
+                  <div class="appointment-actions">
+                    <h:panelGroup rendered="#{booking.status eq 'pending'}">
+                      <h:commandButton
+                        value="Download Letter"
+                        action="#{bookingsBean.downloadAppointmentLetter(booking)}"
+                        styleClass="btn btn-outline-success"
+                      />
+
+                      <!--                                            <h:commandButton value="Reschedule" styleClass="btn btn-outline-primary me-2"
+                                                                                   action="#{bookingsBean.prepareBooking(booking.propertyId)}"/>-->
+                      <!--                                            <button class="btn btn-outline-secondary">
+                                                                      <i class="bi bi-calendar-check me-1"></i>Reschedule
+                                                                  </button>-->
+
+                      <h:commandButton
+                        value="Cancel"
+                        styleClass="btn btn-outline-danger"
+                        action="#{bookingsBean.prepareCancel(booking.propertyId)}"
+                      >
+                        <f:setPropertyActionListener
+                          target="#{bookingsBean.selectedPropertyId}"
+                          value="#{booking.propertyId}"
+                        />
+                        <f:ajax
+                          execute="@this"
+                          render="cancelForm:hiddenPropertyId"
+                          onevent="handleCancelAjax"
+                        />
+                      </h:commandButton>
+                    </h:panelGroup>
+
+<!--                    <h:panelGroup rendered="#{booking.status eq 'approved'}">
+                      <h:panelGroup
+                        rendered="#{not empty booking.propertyPrice}"
+                      >
+                        <span class="text-success">
+                          <i class="bi bi-check-circle me-1"></i> Payment
+                          Required
+                        </span>
+                        <small class="d-block text-muted"
+                          >Please pay from your profile page</small
+                        >
+                      </h:panelGroup>
+                      <h:panelGroup rendered="#{empty booking.propertyPrice}">
+                        <span class="text-muted">Price not available</span>
+                      </h:panelGroup>
+                    </h:panelGroup>-->
+                  </div>
+                </div>
+              </div>
+            </ui:repeat>
+          </h:panelGroup>
+
+          <h:panelGroup rendered="#{empty bookingsBean.userBookings}">
+            <div class="alert alert-info text-center mt-4">
+              <i class="bi bi-calendar-x me-2"></i>
+              You don't have any appointments yet.
+            </div>
+          </h:panelGroup>
+        </h:form>
+
+        <!-- Cancel Confirmation Modal in its own form -->
+        <h:form id="cancelForm">
+          <div
+            class="modal fade"
+            id="cancelModal"
+            tabindex="-1"
+            aria-labelledby="cancelModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="cancelModalLabel">
+                    Confirm Cancellation
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  />
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to cancel the appointment?
+                </div>
+
+                <!-- Hidden field bound to the bean -->
+                <h:inputHidden
+                  id="hiddenPropertyId"
+                  value="#{bookingsBean.selectedPropertyId}"
+                />
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    No
+                  </button>
+
+                  <h:commandButton
+                    value="Yes, Cancel"
+                    action="#{bookingsBean.deleteBookingByUserAndProperty(bookingsBean.selectedPropertyId)}"
+                    styleClass="btn btn-danger"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </h:form>
+      </div>
+    </section>
+
+    <!-- JavaScript to set propertyId and open modal -->
+    <script>
+      let cancelModal;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        cancelModal = new bootstrap.Modal(
+          document.getElementById("cancelModal")
+        );
+      });
+
+      function openCancelModal(propertyId) {
+        const hiddenInput = document.getElementById(
+          "cancelForm:hiddenPropertyId"
+        );
+        if (hiddenInput) {
+          hiddenInput.value = propertyId;
+        }
+        cancelModal.show();
+      }
+
+      function handleCancelAjax(data) {
+        if (data.status === "success") {
+          cancelModal.show();
+        }
+      }
+    </script>
+  </h:body>
+</html>

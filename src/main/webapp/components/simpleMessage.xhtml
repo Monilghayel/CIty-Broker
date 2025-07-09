@@ -1,0 +1,19 @@
+<!-- /components/toastMessages.xhtml -->
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+              xmlns:h="jakarta.faces.html"
+              xmlns:ui="jakarta.faces.facelets"
+              xmlns:f="jakarta.faces.core">
+
+    <div class="d-flex justify-content-center mt-3">
+        <ui:repeat value="#{facesContext.messageList}" var="msg">
+            <div class="alert w-auto 
+                 #{msg.severity.ordinal eq 0 ? 'alert-info' 
+                   : msg.severity.ordinal eq 1 ? 'alert-warning' 
+                   : msg.severity.ordinal eq 2 ? 'alert-danger' 
+                   : 'alert-secondary'} text-center">
+                 #{msg.summary}
+            </div>
+        </ui:repeat>
+    </div>
+
+</ui:component>

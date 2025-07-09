@@ -1,0 +1,73 @@
+/* Common styles used across all pages */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f9fa;
+}
+
+.bg-primary {
+    background: linear-gradient(90deg, #007bff 0%, #0056b3 100%) !important;
+}
+
+/* Common animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Common utility classes */
+.grayscale {
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: filter 0.3s, opacity 0.3s;
+}
+
+.grayscale:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* Common button styles */
+.video-play-btn {
+    cursor: pointer;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    padding: 0.5rem 0.7rem;
+    transition: background 0.3s;
+}
+
+.video-play-btn:hover {
+    background: rgba(0,123,255,0.15);
+}
+
+/* Common icon styles */
+.icon-large {
+    font-size: 1.5em;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Common card styles */
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Common footer styles */
+footer {
+    letter-spacing: 1px;
+}
+
+.navbar .nav-link .icon-large:hover {
+    color: red !important;
+    cursor: pointer;
+} 

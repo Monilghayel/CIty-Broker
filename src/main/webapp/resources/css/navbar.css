@@ -1,0 +1,63 @@
+/* Navbar underline hover effect */
+.navbar-nav .nav-link {
+    position: relative;
+    color: #222;
+    font-weight: 500;
+    padding: 8px 0;
+    transition: color 0.2s;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 0;
+    background: #2386e6;
+    border-radius: 2px;
+    transition: width 0.3s;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 100%;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #2386e6;
+}
+
+/* Navbar underline hover effect with higher specificity and !important */
+nav .navbar-nav .nav-link {
+    position: relative !important;
+    color: #222 !important;
+    font-weight: 500;
+    padding: 8px 0 !important;
+    background: none !important;
+}
+
+nav .navbar-nav .nav-link::after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 0;
+    background: #2386e6;
+    border-radius: 2px;
+    transition: width 0.3s;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+nav .navbar-nav .nav-link:hover::after,
+nav .navbar-nav .nav-link.active::after {
+    width: 100%;
+}
+
+nav .navbar-nav .nav-link:hover,
+nav .navbar-nav .nav-link.active {
+    color: #2386e6 !important;
+} 

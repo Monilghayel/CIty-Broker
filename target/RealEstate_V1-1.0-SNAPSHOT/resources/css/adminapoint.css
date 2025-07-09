@@ -1,0 +1,52 @@
+/* Admin Appointment Management Styles */
+.admin-hero {
+  background-color: #f8f9fa;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+}
+
+.horizontal-card {
+  transition: transform 0.2s ease;
+}
+
+.horizontal-card:hover {
+  transform: translateY(-2px);
+}
+
+.card-title {
+  color: #007bff;
+  font-weight: 600;
+}
+
+/* Access Denied Message Styles */
+.access-denied-icon {
+  opacity: 0.8;
+}
+
+.access-denied-icon i {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .access-denied-icon i {
+    font-size: 3rem !important;
+  }
+
+  .horizontal-card {
+    margin-bottom: 1rem;
+  }
+}

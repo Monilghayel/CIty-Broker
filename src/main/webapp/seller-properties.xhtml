@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="jakarta.faces.passthrough">
+    <h:head>
+        <title>My Properties - CityBroker</title>
+        <!-- Common CSS -->
+        <h:outputStylesheet library="css" name="common.css"/>
+        <h:outputStylesheet library="css" name="header.css"/>
+        <h:outputStylesheet library="css" name="myproperty.css"/>
+        <!-- External CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </h:head>
+    <h:body>
+        <ui:include src="components/header.xhtml"/>
+        <ui:include src="components/simpleMessage.xhtml"/>
+        <f:event type="preRenderView" listener="#{propertyBean.fetchSellerProperties}" />
+
+        <!-- My Properties Hero Section -->
+        <section class="property-hero">
+            <div class="container">
+                <div class="text-center">
+                    <h1 class="display-4 mb-3">Properties Listed by Seller</h1>
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties List Section -->
+        <section class="py-5">
+            <div class="container">
+                <div class="row">
+                    
+                    <!-- Dynamic Properties -->
+                    <ui:repeat value="#{propertyBean.sellerProperties}" var="property">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="property-card">
+                                <div class="position-relative">
+                                    <img src="#{property.imageLinks[0]}" alt="#{property.title}" class="property-image"/>
+                                </div>
+                                <div class="property-details">
+                                    <h5 class="property-title">#{property.title}</h5>
+                                    <p class="property-location">
+                                        <i class="bi bi-geo-alt me-2"></i>#{property.address}
+                                    </p>
+                                    <p class="property-price">
+                                        ₹#{property.price}
+                                    </p>
+                                    <p class="property-specs">
+                                        <i class="bi bi-house"></i>#{property.type}
+                                        <span class="ms-3">
+                                            <i class="bi bi-arrows-angle-expand"></i>#{property.area_sqrt} sq.ft
+                                        </span>
+                                    </p>
+                                    <div class="property-features mt-2">
+                                        <span class="badge bg-light text-dark me-2">
+                                            <i class="bi bi-door-open"></i> #{property.bedrooms} Beds
+                                        </span>
+                                        <span class="badge bg-light text-dark me-2">
+                                            <i class="bi bi-droplet"></i> #{property.bathrooms} Baths
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Buttons -->
+                                <div class="property-actions mt-3">
+                                    <div class="d-flex justify-content-end gap-4">
+                                        <!-- View Details Button -->
+                                        <a href="/RealEstate_V1/property-details.xhtml?id=#{property.id}" 
+                                           class="btn btn-sm btn-outline-primary py-2 px-3">View Details</a>
+                                        
+                                        <h:form styleClass="d-inline">
+                                            <h:commandButton action="#{propertyBean.deleteProperty(property.id)}"
+                                                             value="Delete"
+                                                             styleClass="btn btn-outline-danger btn-sm py-2 px-3"
+                                                             onclick="return confirm('Are you sure you want to delete this property?');">
+                                                <f:ajax render="@none" onevent="handleAjaxEvent" />
+                                            </h:commandButton>
+                                        </h:form>
+                                    </div> 
+                                    
+                                    
+                                    <script>
+                                            function handleAjaxEvent(data) {
+                                                if (data.status === 'success') {
+                                                    window.location.reload(); // reload page on successful deletion
+                                                }
+                                            }
+                                        </script>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+        </section>
+    </h:body>
+</html> 
